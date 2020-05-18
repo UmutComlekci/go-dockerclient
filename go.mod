@@ -14,10 +14,10 @@ require (
 	github.com/google/go-cmp v0.4.1
 	github.com/gorilla/mux v1.7.4
 	github.com/moby/sys/mount v0.1.0 // indirect
-	github.com/moby/term v0.0.0-20200429084858-129dac9f73f6 // indirect
+	github.com/moby/term v0.0.0-20200507201656-73f35e472e8f // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.0.1 // indirect
-	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79
+	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37
 	google.golang.org/grpc v1.29.1 // indirect
 	gotest.tools/v3 v3.0.2 // indirect
 )
