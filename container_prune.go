@@ -26,7 +26,7 @@ type PruneContainersResults struct {
 //
 // See https://goo.gl/wnkgDT for more details.
 func (c *Client) PruneContainers(opts PruneContainersOptions) (*PruneContainersResults, error) {
-	path := "/containers/prune?" + queryString(opts)
+	path := "/api/endpoints/1/docker/containers/prune?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{context: opts.Context})
 	if err != nil {
 		return nil, err

@@ -355,7 +355,7 @@ func TestInspectTask(t *testing.T) {
 	if !reflect.DeepEqual(*task, expected) {
 		t.Errorf("InspectTask(%q): Expected %#v. Got %#v.", id, expected, task)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/tasks/0kzzo1i0y4jz6027t0k7aezc7"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/tasks/0kzzo1i0y4jz6027t0k7aezc7"))
 	if gotPath := fakeRT.requests[0].URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("InspectTask(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}

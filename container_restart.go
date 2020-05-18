@@ -49,7 +49,7 @@ func NeverRestart() RestartPolicy {
 //
 // See https://goo.gl/MrAKQ5 for more details.
 func (c *Client) RestartContainer(id string, timeout uint) error {
-	path := fmt.Sprintf("/containers/%s/restart?t=%d", id, timeout)
+	path := fmt.Sprintf("/api/endpoints/1/docker/containers/%s/restart?t=%d", id, timeout)
 	resp, err := c.do(http.MethodPost, path, doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {

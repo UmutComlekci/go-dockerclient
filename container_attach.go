@@ -63,7 +63,7 @@ func (c *Client) AttachToContainerNonBlocking(opts AttachToContainerOptions) (Cl
 	if opts.Container == "" {
 		return nil, &NoSuchContainer{ID: opts.Container}
 	}
-	path := "/containers/" + opts.Container + "/attach?" + queryString(opts)
+	path := "/api/endpoints/1/docker/containers/" + opts.Container + "/attach?" + queryString(opts)
 	return c.hijack(http.MethodPost, path, hijackOptions{
 		success:        opts.Success,
 		setRawTerminal: opts.RawTerminal,

@@ -24,7 +24,7 @@ func (c *Client) TopContainer(id string, psArgs string) (TopResult, error) {
 	if psArgs != "" {
 		args = fmt.Sprintf("?ps_args=%s", psArgs)
 	}
-	path := fmt.Sprintf("/containers/%s/top%s", id, args)
+	path := fmt.Sprintf("/api/endpoints/1/docker/containers/%s/top%s", id, args)
 	resp, err := c.do(http.MethodGet, path, doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {

@@ -165,7 +165,7 @@ func (c *Client) Stats(opts StatsOptions) (retErr error) {
 	reqSent := make(chan struct{})
 	go func() {
 		defer close(errC)
-		err := c.stream(http.MethodGet, fmt.Sprintf("/containers/%s/stats?stream=%v", opts.ID, opts.Stream), streamOptions{
+		err := c.stream(http.MethodGet, fmt.Sprintf("/api/endpoints/1/docker/containers/%s/stats?stream=%v", opts.ID, opts.Stream), streamOptions{
 			rawJSONStream:     true,
 			useJSONDecoder:    true,
 			stdout:            writeCloser,

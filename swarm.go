@@ -35,7 +35,7 @@ type InitSwarmOptions struct {
 // InitSwarm initializes a new Swarm and returns the node ID.
 // See https://goo.gl/ZWyG1M for more details.
 func (c *Client) InitSwarm(opts InitSwarmOptions) (string, error) {
-	path := "/swarm/init"
+	path := "/api/endpoints/1/docker/swarm/init"
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		data:      opts.InitRequest,
 		forceJSON: true,
@@ -65,7 +65,7 @@ type JoinSwarmOptions struct {
 // JoinSwarm joins an existing Swarm.
 // See https://goo.gl/N59IP1 for more details.
 func (c *Client) JoinSwarm(opts JoinSwarmOptions) error {
-	path := "/swarm/join"
+	path := "/api/endpoints/1/docker/swarm/join"
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		data:      opts.JoinRequest,
 		forceJSON: true,
@@ -92,7 +92,7 @@ type LeaveSwarmOptions struct {
 func (c *Client) LeaveSwarm(opts LeaveSwarmOptions) error {
 	params := make(url.Values)
 	params.Set("force", strconv.FormatBool(opts.Force))
-	path := "/swarm/leave?" + params.Encode()
+	path := "/api/endpoints/1/docker/swarm/leave?" + params.Encode()
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		context: opts.Context,
 	})
@@ -122,7 +122,7 @@ func (c *Client) UpdateSwarm(opts UpdateSwarmOptions) error {
 	params.Set("version", strconv.Itoa(opts.Version))
 	params.Set("rotateWorkerToken", strconv.FormatBool(opts.RotateWorkerToken))
 	params.Set("rotateManagerToken", strconv.FormatBool(opts.RotateManagerToken))
-	path := "/swarm/update?" + params.Encode()
+	path := "/api/endpoints/1/docker/swarm/update?" + params.Encode()
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		data:      opts.Swarm,
 		forceJSON: true,
@@ -141,7 +141,7 @@ func (c *Client) UpdateSwarm(opts UpdateSwarmOptions) error {
 // See https://goo.gl/MFwgX9 for more details.
 func (c *Client) InspectSwarm(ctx context.Context) (swarm.Swarm, error) {
 	response := swarm.Swarm{}
-	resp, err := c.do(http.MethodGet, "/swarm", doOptions{
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/swarm", doOptions{
 		context: ctx,
 	})
 	if err != nil {

@@ -108,7 +108,7 @@ type ListImagesOptions struct {
 //
 // See https://goo.gl/BVzauZ for more details.
 func (c *Client) ListImages(opts ListImagesOptions) ([]APIImages, error) {
-	path := "/images/json?" + queryString(opts)
+	path := "/api/endpoints/1/docker/images/json?" + queryString(opts)
 	resp, err := c.do(http.MethodGet, path, doOptions{context: opts.Context})
 	if err != nil {
 		return nil, err
@@ -136,7 +136,7 @@ type ImageHistory struct {
 //
 // See https://goo.gl/fYtxQa for more details.
 func (c *Client) ImageHistory(name string) ([]ImageHistory, error) {
-	resp, err := c.do(http.MethodGet, "/images/"+name+"/history", doOptions{})
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/images/"+name+"/history", doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
 			return nil, ErrNoSuchImage
@@ -155,7 +155,7 @@ func (c *Client) ImageHistory(name string) ([]ImageHistory, error) {
 //
 // See https://goo.gl/Vd2Pck for more details.
 func (c *Client) RemoveImage(name string) error {
-	resp, err := c.do(http.MethodDelete, "/images/"+name, doOptions{})
+	resp, err := c.do(http.MethodDelete, "/api/endpoints/1/docker/images/"+name, doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
 			return ErrNoSuchImage
@@ -181,7 +181,7 @@ type RemoveImageOptions struct {
 //
 // See https://goo.gl/Vd2Pck for more details.
 func (c *Client) RemoveImageExtended(name string, opts RemoveImageOptions) error {
-	uri := fmt.Sprintf("/images/%s?%s", name, queryString(&opts))
+	uri := fmt.Sprintf("/api/endpoints/1/docker/images/%s?%s", name, queryString(&opts))
 	resp, err := c.do(http.MethodDelete, uri, doOptions{context: opts.Context})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
@@ -197,7 +197,7 @@ func (c *Client) RemoveImageExtended(name string, opts RemoveImageOptions) error
 //
 // See https://goo.gl/ncLTG8 for more details.
 func (c *Client) InspectImage(name string) (*Image, error) {
-	resp, err := c.do(http.MethodGet, "/images/"+name+"/json", doOptions{})
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/images/"+name+"/json", doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
 			return nil, ErrNoSuchImage
@@ -271,7 +271,7 @@ func (c *Client) PushImage(opts PushImageOptions, auth AuthConfiguration) error 
 	}
 	name := opts.Name
 	opts.Name = ""
-	path := "/images/" + name + "/push?" + queryString(&opts)
+	path := "/api/endpoints/1/docker/images/" + name + "/push?" + queryString(&opts)
 	return c.stream(http.MethodPost, path, streamOptions{
 		setRawTerminal:    true,
 		rawJSONStream:     opts.RawJSONStream,
@@ -325,7 +325,7 @@ func (c *Client) PullImage(opts PullImageOptions, auth AuthConfiguration) error 
 
 //nolint:golint
 func (c *Client) createImage(opts interface{}, headers map[string]string, in io.Reader, w io.Writer, rawJSONStream bool, timeout time.Duration, context context.Context) error {
-	url, err := c.getPath("/images/create", opts)
+	url, err := c.getPath("/api/endpoints/1/docker/images/create", opts)
 	if err != nil {
 		return err
 	}
@@ -353,7 +353,7 @@ type LoadImageOptions struct {
 //
 // See https://goo.gl/rEsBV3 for more details.
 func (c *Client) LoadImage(opts LoadImageOptions) error {
-	return c.stream(http.MethodPost, "/images/load", streamOptions{
+	return c.stream(http.MethodPost, "/api/endpoints/1/docker/images/load", streamOptions{
 		setRawTerminal: true,
 		in:             opts.InputStream,
 		stdout:         opts.OutputStream,
@@ -375,7 +375,7 @@ type ExportImageOptions struct {
 //
 // See https://goo.gl/AuySaA for more details.
 func (c *Client) ExportImage(opts ExportImageOptions) error {
-	return c.stream(http.MethodGet, fmt.Sprintf("/images/%s/get", opts.Name), streamOptions{
+	return c.stream(http.MethodGet, fmt.Sprintf("/api/endpoints/1/docker/images/%s/get", opts.Name), streamOptions{
 		setRawTerminal:    true,
 		stdout:            opts.OutputStream,
 		inactivityTimeout: opts.InactivityTimeout,
@@ -409,14 +409,14 @@ func (c *Client) ExportImages(opts ExportImagesOptions) error {
 		for _, val := range opts.Names[1:] {
 			str += "," + val
 		}
-		exporturl, err = c.getPath("/images/get", ExportImagesOptions{
+		exporturl, err = c.getPath("/api/endpoints/1/docker/images/get", ExportImagesOptions{
 			Names:             []string{str},
 			OutputStream:      opts.OutputStream,
 			InactivityTimeout: opts.InactivityTimeout,
 			Context:           opts.Context,
 		})
 	} else {
-		exporturl, err = c.getPath("/images/get", &opts)
+		exporturl, err = c.getPath("/api/endpoints/1/docker/images/get", &opts)
 	}
 	if err != nil {
 		return err
@@ -629,7 +629,7 @@ func (c *Client) TagImage(name string, opts TagImageOptions) error {
 	if name == "" {
 		return ErrNoSuchImage
 	}
-	resp, err := c.do(http.MethodPost, "/images/"+name+"/tag?"+queryString(&opts), doOptions{
+	resp, err := c.do(http.MethodPost, "/api/endpoints/1/docker/images/"+name+"/tag?"+queryString(&opts), doOptions{
 		context: opts.Context,
 	})
 	if err != nil {
@@ -685,7 +685,7 @@ type APIImageSearch struct {
 //
 // See https://goo.gl/KLO9IZ for more details.
 func (c *Client) SearchImages(term string) ([]APIImageSearch, error) {
-	resp, err := c.do(http.MethodGet, "/images/search?term="+term, doOptions{})
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/images/search?term="+term, doOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -706,7 +706,7 @@ func (c *Client) SearchImagesEx(term string, auth AuthConfiguration) ([]APIImage
 		return nil, err
 	}
 
-	resp, err := c.do(http.MethodGet, "/images/search?term="+term, doOptions{
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/images/search?term="+term, doOptions{
 		headers: headers,
 	})
 	if err != nil {
@@ -743,7 +743,7 @@ type PruneImagesResults struct {
 //
 // See https://goo.gl/qfZlbZ for more details.
 func (c *Client) PruneImages(opts PruneImagesOptions) (*PruneImagesResults, error) {
-	path := "/images/prune?" + queryString(opts)
+	path := "/api/endpoints/1/docker/images/prune?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{context: opts.Context})
 	if err != nil {
 		return nil, err

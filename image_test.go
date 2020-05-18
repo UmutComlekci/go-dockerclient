@@ -204,7 +204,7 @@ func TestRemoveImage(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("RemoveImage(%q): Wrong HTTP method. Want %s. Got %s.", name, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/images/" + name))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/images/" + name))
 	if req.URL.Path != u.Path {
 		t.Errorf("RemoveImage(%q): Wrong request path. Want %q. Got %q.", name, u.Path, req.URL.Path)
 	}
@@ -233,7 +233,7 @@ func TestRemoveImageExtended(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("RemoveImage(%q): Wrong HTTP method. Want %s. Got %s.", name, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/images/" + name))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/images/" + name))
 	if req.URL.Path != u.Path {
 		t.Errorf("RemoveImage(%q): Wrong request path. Want %q. Got %q.", name, u.Path, req.URL.Path)
 	}
@@ -296,7 +296,7 @@ func TestInspectImage(t *testing.T) {
 	if req.Method != http.MethodGet {
 		t.Errorf("InspectImage(%q): Wrong HTTP method. Want GET. Got %s.", expected.ID, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/images/" + expected.ID + "/json"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/images/" + expected.ID + "/json"))
 	if req.URL.Path != u.Path {
 		t.Errorf("InspectImage(%q): Wrong request URL. Want %q. Got %q.", expected.ID, u.Path, req.URL.Path)
 	}
@@ -332,7 +332,7 @@ func TestPushImage(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("PushImage: Wrong HTTP method. Want POST. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/images/test/push"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/images/test/push"))
 	if req.URL.Path != u.Path {
 		t.Errorf("PushImage: Wrong request path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -455,7 +455,7 @@ func TestPullImage(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("PullImage: Wrong HTTP method. Want POST. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/images/create"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/images/create"))
 	if req.URL.Path != u.Path {
 		t.Errorf("PullImage: Wrong request path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -485,7 +485,7 @@ func TestPullImageWithDigest(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("PullImage: Wrong HTTP method. Want POST. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/images/create"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/images/create"))
 	if req.URL.Path != u.Path {
 		t.Errorf("PullImage: Wrong request path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -522,7 +522,7 @@ func TestPullImageWithDigestAndTag(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("PullImage: Wrong HTTP method. Want POST. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/images/create"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/images/create"))
 	if req.URL.Path != u.Path {
 		t.Errorf("PullImage: Wrong request path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -960,7 +960,7 @@ func TestTagImageParameters(t *testing.T) {
 		t.Fatal(err)
 	}
 	req := fakeRT.requests[0]
-	expected := "http://localhost:4243/images/base/tag?repo=testImage"
+	expected := "http://localhost:4243/api/endpoints/1/docker/images/base/tag?repo=testImage"
 	got := req.URL.String()
 	if !reflect.DeepEqual(got, expected) {
 		t.Errorf("TagImage: wrong query string. Want %#v. Got %#v.", expected, got)
@@ -1012,8 +1012,8 @@ func TestLoadImage(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("LoadImage: wrong method. Expected %q. Got %q.", http.MethodPost, req.Method)
 	}
-	if req.URL.Path != "/images/load" {
-		t.Errorf("LoadImage: wrong URL. Expected %q. Got %q.", "/images/load", req.URL.Path)
+	if req.URL.Path != "/api/endpoints/1/docker/images/load" {
+		t.Errorf("LoadImage: wrong URL. Expected %q. Got %q.", "/api/endpoints/1/docker/images/load", req.URL.Path)
 	}
 }
 
@@ -1031,7 +1031,7 @@ func TestExportImage(t *testing.T) {
 	if req.Method != http.MethodGet {
 		t.Errorf("ExportImage: wrong method. Expected %q. Got %q.", http.MethodGet, req.Method)
 	}
-	expectedPath := "/images/testimage/get"
+	expectedPath := "/api/endpoints/1/docker/images/testimage/get"
 	if req.URL.Path != expectedPath {
 		t.Errorf("ExportIMage: wrong path. Expected %q. Got %q.", expectedPath, req.URL.Path)
 	}
@@ -1052,7 +1052,7 @@ func TestExportImages(t *testing.T) {
 	if req.Method != http.MethodGet {
 		t.Errorf("ExportImages: wrong method. Expected %q. Got %q.", http.MethodGet, req.Method)
 	}
-	expected := "http://localhost:4243/v1.25/images/get?names=testimage1%2Ctestimage2%3Alatest"
+	expected := "http://localhost:4243/v1.25/api/endpoints/1/docker/images/get?names=testimage1%2Ctestimage2%3Alatest"
 	got := req.URL.String()
 	if !reflect.DeepEqual(got, expected) {
 		t.Errorf("ExportImages: wrong path. Expected %q. Got %q.", expected, got)
@@ -1064,7 +1064,7 @@ func TestExportImages(t *testing.T) {
 		t.Error(err)
 	}
 	req = fakeRT.requests[1]
-	expected = "http://localhost:4243/v1.24/images/get?names=testimage1&names=testimage2%3Alatest"
+	expected = "http://localhost:4243/v1.24/api/endpoints/1/docker/images/get?names=testimage1&names=testimage2%3Alatest"
 	got = req.URL.String()
 	if !reflect.DeepEqual(got, expected) {
 		t.Errorf("ExportImages: wrong path. Expected %q. Got %q.", expected, got)

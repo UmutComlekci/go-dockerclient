@@ -40,7 +40,7 @@ func (c *Client) InstallPlugins(opts InstallPluginOptions) error {
 		return err
 	}
 
-	path := "/plugins/pull?" + queryString(opts)
+	path := "/api/endpoints/1/docker/plugins/pull?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		data:    opts.Plugins,
 		context: opts.Context,
@@ -163,7 +163,7 @@ type PluginDetail struct {
 //
 // See https://goo.gl/C4t7Tz for more details.
 func (c *Client) ListPlugins(ctx context.Context) ([]PluginDetail, error) {
-	resp, err := c.do(http.MethodGet, "/plugins", doOptions{
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/plugins", doOptions{
 		context: ctx,
 	})
 	if err != nil {
@@ -189,7 +189,7 @@ type ListFilteredPluginsOptions struct {
 //
 // See https://goo.gl/rmdmWg for more details.
 func (c *Client) ListFilteredPlugins(opts ListFilteredPluginsOptions) ([]PluginDetail, error) {
-	path := "/plugins/json?" + queryString(opts)
+	path := "/api/endpoints/1/docker/plugins/json?" + queryString(opts)
 	resp, err := c.do(http.MethodGet, path, doOptions{
 		context: opts.Context,
 	})
@@ -235,7 +235,7 @@ func (c *Client) GetPluginPrivilegesWithOptions(opts GetPluginPrivilegesOptions)
 		return nil, err
 	}
 
-	path := "/plugins/privileges?" + queryString(opts)
+	path := "/api/endpoints/1/docker/plugins/privileges?" + queryString(opts)
 	resp, err := c.do(http.MethodGet, path, doOptions{
 		context: opts.Context,
 		headers: headers,
@@ -256,7 +256,7 @@ func (c *Client) GetPluginPrivilegesWithOptions(opts GetPluginPrivilegesOptions)
 // See https://goo.gl/C4t7Tz for more details.
 //nolint:golint
 func (c *Client) InspectPlugins(name string, ctx context.Context) (*PluginDetail, error) {
-	resp, err := c.do(http.MethodGet, "/plugins/"+name+"/json", doOptions{
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/plugins/"+name+"/json", doOptions{
 		context: ctx,
 	})
 	if err != nil {
@@ -288,7 +288,7 @@ type RemovePluginOptions struct {
 //
 // See https://goo.gl/C4t7Tz for more details.
 func (c *Client) RemovePlugin(opts RemovePluginOptions) (*PluginDetail, error) {
-	path := "/plugins/" + opts.Name + "?" + queryString(opts)
+	path := "/api/endpoints/1/docker/plugins/" + opts.Name + "?" + queryString(opts)
 	resp, err := c.do(http.MethodDelete, path, doOptions{context: opts.Context})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
@@ -329,7 +329,7 @@ type EnablePluginOptions struct {
 //
 // See https://goo.gl/C4t7Tz for more details.
 func (c *Client) EnablePlugin(opts EnablePluginOptions) error {
-	path := "/plugins/" + opts.Name + "/enable?" + queryString(opts)
+	path := "/api/endpoints/1/docker/plugins/" + opts.Name + "/enable?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{context: opts.Context})
 	if err != nil {
 		return err
@@ -352,7 +352,7 @@ type DisablePluginOptions struct {
 //
 // See https://goo.gl/C4t7Tz for more details.
 func (c *Client) DisablePlugin(opts DisablePluginOptions) error {
-	path := "/plugins/" + opts.Name + "/disable"
+	path := "/api/endpoints/1/docker/plugins/" + opts.Name + "/disable"
 	resp, err := c.do(http.MethodPost, path, doOptions{context: opts.Context})
 	if err != nil {
 		return err
@@ -377,7 +377,7 @@ type CreatePluginOptions struct {
 //
 // See https://goo.gl/C4t7Tz for more details.
 func (c *Client) CreatePlugin(opts CreatePluginOptions) (string, error) {
-	path := "/plugins/create?" + queryString(opts)
+	path := "/api/endpoints/1/docker/plugins/create?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		data:    opts.Path,
 		context: opts.Context,
@@ -407,7 +407,7 @@ type PushPluginOptions struct {
 //
 // See https://goo.gl/C4t7Tz for more details.
 func (c *Client) PushPlugin(opts PushPluginOptions) error {
-	path := "/plugins/" + opts.Name + "/push"
+	path := "/api/endpoints/1/docker/plugins/" + opts.Name + "/push"
 	resp, err := c.do(http.MethodPost, path, doOptions{context: opts.Context})
 	if err != nil {
 		return err
@@ -431,7 +431,7 @@ type ConfigurePluginOptions struct {
 //
 // See https://goo.gl/C4t7Tz for more details.
 func (c *Client) ConfigurePlugin(opts ConfigurePluginOptions) error {
-	path := "/plugins/" + opts.Name + "/set"
+	path := "/api/endpoints/1/docker/plugins/" + opts.Name + "/set"
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		data:    opts.Envs,
 		context: opts.Context,

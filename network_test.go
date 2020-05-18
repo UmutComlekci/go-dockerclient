@@ -103,7 +103,7 @@ func TestNetworkInfo(t *testing.T) {
 	if !reflect.DeepEqual(*network, expected) {
 		t.Errorf("NetworkInfo(%q): Expected %#v. Got %#v.", id, expected, network)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/networks/8dfafdbc3a40"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/networks/8dfafdbc3a40"))
 	if gotPath := fakeRT.requests[0].URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("NetworkInfo(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -148,7 +148,7 @@ func TestNetworkRemove(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("RemoveNetwork(%q): Wrong HTTP method. Want %s. Got %s.", id, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/networks/" + id))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/networks/" + id))
 	if req.URL.Path != u.Path {
 		t.Errorf("RemoveNetwork(%q): Wrong request path. Want %q. Got %q.", id, u.Path, req.URL.Path)
 	}
@@ -169,7 +169,7 @@ func TestNetworkConnect(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("ConnectNetwork(%q): Wrong HTTP method. Want %s. Got %s.", id, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/networks/" + id + "/connect"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/networks/" + id + "/connect"))
 	if req.URL.Path != u.Path {
 		t.Errorf("ConnectNetwork(%q): Wrong request path. Want %q. Got %q.", id, u.Path, req.URL.Path)
 	}
@@ -200,7 +200,7 @@ func TestNetworkConnectWithEndpoint(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("ConnectNetwork(%q): Wrong HTTP method. Want %s. Got %s.", id, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/networks/" + id + "/connect"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/networks/" + id + "/connect"))
 	if req.URL.Path != u.Path {
 		t.Errorf("ConnectNetwork(%q): Wrong request path. Want %q. Got %q.", id, u.Path, req.URL.Path)
 	}
@@ -238,7 +238,7 @@ func TestNetworkDisconnect(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("DisconnectNetwork(%q): Wrong HTTP method. Want %s. Got %s.", id, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/networks/" + id + "/disconnect"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/networks/" + id + "/disconnect"))
 	if req.URL.Path != u.Path {
 		t.Errorf("DisconnectNetwork(%q): Wrong request path. Want %q. Got %q.", id, u.Path, req.URL.Path)
 	}

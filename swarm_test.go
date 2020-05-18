@@ -28,7 +28,7 @@ func TestInitSwarm(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("InitSwarm: Wrong HTTP method. Want %s. Got %s.", expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/swarm/init"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/swarm/init"))
 	if req.URL.Path != u.Path {
 		t.Errorf("InitSwarm: Wrong request path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -65,7 +65,7 @@ func TestJoinSwarm(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("JoinSwarm: Wrong HTTP method. Want %s. Got %s.", expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/swarm/join"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/swarm/join"))
 	if req.URL.Path != u.Path {
 		t.Errorf("JoinSwarm: Wrong request path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -93,8 +93,8 @@ func TestLeaveSwarm(t *testing.T) {
 		force       bool
 		expectedURI string
 	}{
-		{false, "/swarm/leave?force=false"},
-		{true, "/swarm/leave?force=true"},
+		{false, "/api/endpoints/1/docker/swarm/leave?force=false"},
+		{true, "/api/endpoints/1/docker/swarm/leave?force=true"},
 	}
 	for i, tt := range testData {
 		err := client.LeaveSwarm(LeaveSwarmOptions{Force: tt.force})
@@ -145,7 +145,7 @@ func TestUpdateSwarm(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("UpdateSwarm: Wrong HTTP method. Want %s. Got %s.", expectedMethod, req.Method)
 	}
-	expectedPath := "/swarm/update"
+	expectedPath := "/api/endpoints/1/docker/swarm/update"
 	if req.URL.Path != expectedPath {
 		t.Errorf("UpdateSwarm: Wrong request path. Want %q. Got %q.", expectedPath, req.URL.Path)
 	}
@@ -187,7 +187,7 @@ func TestInspectSwarm(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("InspectSwarm: Wrong HTTP method. Want %s. Got %s.", expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/swarm"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/swarm"))
 	if req.URL.Path != u.Path {
 		t.Errorf("InspectSwarm: Wrong request path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}

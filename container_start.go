@@ -33,7 +33,7 @@ func (c *Client) StartContainerWithContext(id string, hostConfig *HostConfig, ct
 }
 
 func (c *Client) startContainer(id string, hostConfig *HostConfig, opts doOptions) error {
-	path := "/containers/" + id + "/start"
+	path := "/api/endpoints/1/docker/containers/" + id + "/start"
 	if c.serverAPIVersion == nil {
 		c.checkAPIVersion()
 	}

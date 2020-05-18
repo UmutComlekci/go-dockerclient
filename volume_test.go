@@ -76,7 +76,7 @@ func TestCreateVolume(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("CreateVolume(): Wrong HTTP method. Want %s. Got %s.", expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/volumes/create"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/volumes/create"))
 	if req.URL.Path != u.Path {
 		t.Errorf("CreateVolume(): Wrong request path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -111,7 +111,7 @@ func TestInspectVolume(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("InspectVolume(%q): Wrong HTTP method. Want %s. Got %s.", name, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/volumes/" + name))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/volumes/" + name))
 	if req.URL.Path != u.Path {
 		t.Errorf("CreateVolume(%q): Wrong request path. Want %q. Got %q.", name, u.Path, req.URL.Path)
 	}
@@ -130,7 +130,7 @@ func TestRemoveVolume(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("RemoveVolume(%q): Wrong HTTP method. Want %s. Got %s.", name, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/volumes/" + name))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/volumes/" + name))
 	if req.URL.Path != u.Path {
 		t.Errorf("RemoveVolume(%q): Wrong request path. Want %q. Got %q.", name, u.Path, req.URL.Path)
 	}
@@ -152,7 +152,7 @@ func TestRemoveVolumeWithOptions(t *testing.T) {
 	if req.Method != expectedMethod {
 		t.Errorf("RemoveVolume(%q): Wrong HTTP method. Want %s. Got %s.", name, expectedMethod, req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/volumes/" + name + "?force=1"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/volumes/" + name + "?force=1"))
 	if req.URL.RequestURI() != u.RequestURI() {
 		t.Errorf("RemoveVolume(%q): Wrong request path. Want %q. Got %q.", name, u.RequestURI(), req.URL.RequestURI())
 	}

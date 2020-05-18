@@ -9,7 +9,7 @@ import (
 //
 // See https://goo.gl/15KKzh for more details.
 func (c *Client) ContainerChanges(id string) ([]Change, error) {
-	path := "/containers/" + id + "/changes"
+	path := "/api/endpoints/1/docker/containers/" + id + "/changes"
 	resp, err := c.do(http.MethodGet, path, doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {

@@ -147,7 +147,7 @@ func TestListContainersParams(t *testing.T) {
 			map[string][]string{"all": {"1"}, "filters": {"{\"exited\":[\"0\"],\"status\":[\"exited\"]}"}},
 		},
 	}
-	const expectedPath = "/containers/json"
+	const expectedPath = "/api/endpoints/1/docker/containers/json"
 	for _, tt := range tests {
 		test := tt
 		t.Run("", func(t *testing.T) {
@@ -955,7 +955,7 @@ func TestContainerChanges(t *testing.T) {
 	if !reflect.DeepEqual(changes, expected) {
 		t.Errorf("ContainerChanges(%q): Expected %#v. Got %#v.", id, expected, changes)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/4fa6e0f0c678/changes"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/4fa6e0f0c678/changes"))
 	if gotPath := fakeRT.requests[0].URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("ContainerChanges(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1012,7 +1012,7 @@ func TestCreateContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("CreateContainer: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/create"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/create"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("CreateContainer: Wrong path in request. Want %q. Got %q.", expectedURL.Path, gotPath)
 	}
@@ -1100,7 +1100,7 @@ func TestUpdateContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateContainer: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/update"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/update"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("UpdateContainer: Wrong path in request. Want %q. Got %q.", expectedURL.Path, gotPath)
 	}
@@ -1130,7 +1130,7 @@ func TestStartContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("StartContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/start"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/start"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("StartContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1154,7 +1154,7 @@ func TestStartContainerHostConfigAPI124(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("StartContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/start"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/start"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("StartContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1181,7 +1181,7 @@ func TestStartContainerNilHostConfig(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("StartContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/start"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/start"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("StartContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1218,7 +1218,7 @@ func TestStartContainerWithContext(t *testing.T) {
 		if req.Method != http.MethodPost {
 			t.Errorf("StartContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 		}
-		expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/start"))
+		expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/start"))
 		if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 			t.Errorf("StartContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 		}
@@ -1262,7 +1262,7 @@ func TestStopContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("StopContainer(%q, 10): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/stop"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/stop"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("StopContainer(%q, 10): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1290,7 +1290,7 @@ func TestStopContainerWithContext(t *testing.T) {
 		if req.Method != http.MethodPost {
 			t.Errorf("StopContainer(%q, 10): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 		}
-		expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/stop"))
+		expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/stop"))
 		if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 			t.Errorf("StopContainer(%q, 10): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 		}
@@ -1330,7 +1330,7 @@ func TestRestartContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("RestartContainer(%q, 10): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/restart"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/restart"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("RestartContainer(%q, 10): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1356,7 +1356,7 @@ func TestPauseContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("PauseContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/pause"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/pause"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("PauseContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1382,7 +1382,7 @@ func TestUnpauseContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("PauseContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/unpause"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/unpause"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("PauseContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1408,7 +1408,7 @@ func TestKillContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("KillContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/kill"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/kill"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("KillContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1465,7 +1465,7 @@ func TestRemoveContainer(t *testing.T) {
 	if req.Method != http.MethodDelete {
 		t.Errorf("RemoveContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodDelete, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("RemoveContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1509,7 +1509,7 @@ func TestResizeContainerTTY(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("ResizeContainerTTY(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/resize"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/resize"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("ResizeContainerTTY(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1539,7 +1539,7 @@ func TestWaitContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("WaitContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/wait"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/wait"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("WaitContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -1573,7 +1573,7 @@ func TestWaitContainerWithContext(t *testing.T) {
 		if req.Method != http.MethodPost {
 			t.Errorf("WaitContainer(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodPost, req.Method)
 		}
-		expectedURL, _ := url.Parse(client.getURL("/containers/" + id + "/wait"))
+		expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/wait"))
 		if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 			t.Errorf("WaitContainer(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 		}
@@ -1626,7 +1626,7 @@ func TestCommitContainerParams(t *testing.T) {
 			json,
 		},
 	}
-	const expectedPath = "/commit"
+	const expectedPath = "/api/endpoints/1/docker/commit"
 	for _, tt := range tests {
 		test := tt
 		t.Run("", func(t *testing.T) {
@@ -1705,7 +1705,7 @@ func TestAttachToContainerLogs(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("AttachToContainer: wrong HTTP method. Want POST. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/containers/a123456/attach"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/a123456/attach"))
 	if req.URL.Path != u.Path {
 		t.Errorf("AttachToContainer for logs: wrong HTTP path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -1991,7 +1991,7 @@ func TestLogs(t *testing.T) {
 	if req.Method != http.MethodGet {
 		t.Errorf("Logs: wrong HTTP method. Want GET. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/containers/a123456/logs"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/a123456/logs"))
 	if req.URL.Path != u.Path {
 		t.Errorf("AttachToContainer for logs: wrong HTTP path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -2087,7 +2087,7 @@ func TestLogsSpecifyingTail(t *testing.T) {
 	if req.Method != http.MethodGet {
 		t.Errorf("Logs: wrong HTTP method. Want GET. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/containers/a123456/logs"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/a123456/logs"))
 	if req.URL.Path != u.Path {
 		t.Errorf("AttachToContainer for logs: wrong HTTP path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -2395,7 +2395,7 @@ func TestTopContainer(t *testing.T) {
 		processes.Processes[0][7] != "cmd1" {
 		t.Errorf("TopContainer: Process list to include cmd1. Got %#v.", processes)
 	}
-	expectedURI := "/containers/" + id + "/top"
+	expectedURI := "/api/endpoints/1/docker/containers/" + id + "/top"
 	if !strings.HasSuffix(fakeRT.requests[0].URL.String(), expectedURI) {
 		t.Errorf("TopContainer: Expected URI to have %q. Got %q.", expectedURI, fakeRT.requests[0].URL.String())
 	}
@@ -2415,7 +2415,7 @@ func TestTopContainerWithPsArgs(t *testing.T) {
 	_, err := client.TopContainer("abef348", "aux")
 	expectNoSuchContainer(t, "abef348", err)
 
-	expectedURI := "/containers/abef348/top?ps_args=aux"
+	expectedURI := "/api/endpoints/1/docker/containers/abef348/top?ps_args=aux"
 	if !strings.HasSuffix(fakeRT.requests[0].URL.String(), expectedURI) {
 		t.Errorf("TopContainer: Expected URI to have %q. Got %q.", expectedURI, fakeRT.requests[0].URL.String())
 	}
@@ -2727,7 +2727,7 @@ func TestStats(t *testing.T) {
 	if req.Method != http.MethodGet {
 		t.Errorf("Stats: wrong HTTP method. Want GET. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/containers/" + id + "/stats"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/" + id + "/stats"))
 	if req.URL.Path != u.Path {
 		t.Errorf("Stats: wrong HTTP path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -2756,7 +2756,7 @@ func TestRenameContainer(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("RenameContainer: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/containers/something_old/rename?name=something_new"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/containers/something_old/rename?name=something_new"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("RenameContainer: Wrong path in request. Want %q. Got %q.", expectedURL.Path, gotPath)
 	}

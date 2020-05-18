@@ -42,7 +42,7 @@ func TestCreateService(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("CreateService: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/services/create"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/create"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("CreateService: Wrong path in request. Want %q. Got %q.", expectedURL.Path, gotPath)
 	}
@@ -88,7 +88,7 @@ func TestCreateServiceWithAuthentication(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("CreateService: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/services/create"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/create"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("CreateService: Wrong path in request. Want %q. Got %q.", expectedURL.Path, gotPath)
 	}
@@ -127,7 +127,7 @@ func TestRemoveService(t *testing.T) {
 	if req.Method != http.MethodDelete {
 		t.Errorf("RemoveService(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodDelete, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/services/" + id))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/" + id))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("RemoveService(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -157,7 +157,7 @@ func TestUpdateService(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateService: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/services/" + id + "/update?version=23"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/" + id + "/update?version=23"))
 	if gotURI := req.URL.RequestURI(); gotURI != expectedURL.RequestURI() {
 		t.Errorf("UpdateService: Wrong path in request. Want %q. Got %q.", expectedURL.RequestURI(), gotURI)
 	}
@@ -189,7 +189,7 @@ func TestUpdateServiceRollback(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateService: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/services/" + id + "/update?version=23&rollback=previous"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/" + id + "/update?version=23&rollback=previous"))
 	if req.URL.Path != expectedURL.Path {
 		t.Errorf("UpdateService: Wrong path in request. Want %q. Got %q.", expectedURL.Path, req.URL.Path)
 	}
@@ -218,7 +218,7 @@ func TestUpdateServiceWithAuthentication(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateService: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/services/" + id + "/update?version=23"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/" + id + "/update?version=23"))
 	if gotURI := req.URL.RequestURI(); gotURI != expectedURL.RequestURI() {
 		t.Errorf("UpdateService: Wrong path in request. Want %q. Got %q.", expectedURL.RequestURI(), gotURI)
 	}
@@ -346,7 +346,7 @@ func TestInspectService(t *testing.T) {
 	if !reflect.DeepEqual(*service, expected) {
 		t.Errorf("InspectService(%q): Expected %#v. Got %#v.", id, expected, service)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/services/ak7w3gjqoa3kuz8xcpnyy0pvl"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/ak7w3gjqoa3kuz8xcpnyy0pvl"))
 	if gotPath := fakeRT.requests[0].URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("InspectService(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -466,7 +466,7 @@ func TestGetServiceLogs(t *testing.T) {
 	if req.Method != http.MethodGet {
 		t.Errorf("Logs: wrong HTTP method. Want GET. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/services/a123456/logs"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/a123456/logs"))
 	if req.URL.Path != u.Path {
 		t.Errorf("AttachToContainer for logs: wrong HTTP path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}
@@ -559,7 +559,7 @@ func TestGetServiceLogsSpecifyingTail(t *testing.T) {
 	if req.Method != http.MethodGet {
 		t.Errorf("Logs: wrong HTTP method. Want GET. Got %s.", req.Method)
 	}
-	u, _ := url.Parse(client.getURL("/services/a123456/logs"))
+	u, _ := url.Parse(client.getURL("/api/endpoints/1/docker/services/a123456/logs"))
 	if req.URL.Path != u.Path {
 		t.Errorf("AttachToContainer for logs: wrong HTTP path. Want %q. Got %q.", u.Path, req.URL.Path)
 	}

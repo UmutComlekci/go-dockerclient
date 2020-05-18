@@ -32,7 +32,7 @@ func (c *Client) CopyFromContainer(opts CopyFromContainerOptions) error {
 	if c.serverAPIVersion != nil && c.serverAPIVersion.GreaterThanOrEqualTo(apiVersion124) {
 		return errors.New("go-dockerclient: CopyFromContainer is no longer available in Docker >= 1.12, use DownloadFromContainer instead")
 	}
-	url := fmt.Sprintf("/containers/%s/copy", opts.Container)
+	url := fmt.Sprintf("/api/endpoints/1/docker/containers/%s/copy", opts.Container)
 	resp, err := c.do(http.MethodPost, url, doOptions{
 		data:    opts,
 		context: opts.Context,

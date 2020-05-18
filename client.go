@@ -729,7 +729,7 @@ type closerFunc func() error
 func (c closerFunc) Close() error { return c() }
 
 func (c *Client) hijack(method, path string, hijackOptions hijackOptions) (CloseWaiter, error) {
-	if path != "/version" && !c.SkipServerVersionCheck && c.expectedAPIVersion == nil {
+	if path != "/api/endpoints/1/docker/version" && !c.SkipServerVersionCheck && c.expectedAPIVersion == nil {
 		err := c.checkAPIVersion()
 		if err != nil {
 			return nil, err

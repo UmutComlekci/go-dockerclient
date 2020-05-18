@@ -40,7 +40,7 @@ func TestCreateSecret(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("CreateSecret: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/secrets/create"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/secrets/create"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("CreateSecret: Wrong path in request. Want %q. Got %q.", expectedURL.Path, gotPath)
 	}
@@ -65,7 +65,7 @@ func TestRemoveSecret(t *testing.T) {
 	if req.Method != http.MethodDelete {
 		t.Errorf("RemoveSecret(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodDelete, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/secrets/" + id))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/secrets/" + id))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("RemoveSecret(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -92,7 +92,7 @@ func TestUpdateSecret(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateSecret: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/secrets/" + id + "/update?version=23"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/secrets/" + id + "/update?version=23"))
 	if gotURI := req.URL.RequestURI(); gotURI != expectedURL.RequestURI() {
 		t.Errorf("UpdateSecret: Wrong path in request. Want %q. Got %q.", expectedURL.RequestURI(), gotURI)
 	}
@@ -130,7 +130,7 @@ func TestUpdateSecretWithAuthentication(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateSecret: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/secrets/" + id + "/update?version=23"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/secrets/" + id + "/update?version=23"))
 	if gotURI := req.URL.RequestURI(); gotURI != expectedURL.RequestURI() {
 		t.Errorf("UpdateSecret: Wrong path in request. Want %q. Got %q.", expectedURL.RequestURI(), gotURI)
 	}
@@ -215,7 +215,7 @@ func TestInspectSecret(t *testing.T) {
 	if !reflect.DeepEqual(*secret, expected) {
 		t.Errorf("InspectSecret(%q): Expected %#v. Got %#v.", id, expected, secret)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/secrets/ak7w3gjqoa3kuz8xcpnyy0pvl"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/secrets/ak7w3gjqoa3kuz8xcpnyy0pvl"))
 	if gotPath := fakeRT.requests[0].URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("InspectSecret(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}

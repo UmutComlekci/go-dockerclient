@@ -22,7 +22,7 @@ type RenameContainerOptions struct {
 //
 // See https://goo.gl/46inai for more details.
 func (c *Client) RenameContainer(opts RenameContainerOptions) error {
-	resp, err := c.do(http.MethodPost, fmt.Sprintf("/containers/"+opts.ID+"/rename?%s", queryString(opts)), doOptions{
+	resp, err := c.do(http.MethodPost, fmt.Sprintf("/api/endpoints/1/docker/containers/"+opts.ID+"/rename?%s", queryString(opts)), doOptions{
 		context: opts.Context,
 	})
 	if err != nil {

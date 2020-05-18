@@ -169,7 +169,7 @@ func TestInspectNode(t *testing.T) {
 	if !reflect.DeepEqual(*node, expected) {
 		t.Errorf("InspectNode(%q): Expected %#v. Got %#v.", id, expected, node)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/nodes/24ifsmvkjbyhk"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/nodes/24ifsmvkjbyhk"))
 	if gotPath := fakeRT.requests[0].URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("InspectNode(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -199,7 +199,7 @@ func TestUpdateNode(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateNode: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/nodes/" + id + "/update"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/nodes/" + id + "/update"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("UpdateNode: Wrong path in request. Want %q. Got %q.", expectedURL.Path, gotPath)
 	}
@@ -236,7 +236,7 @@ func TestRemoveNode(t *testing.T) {
 	if req.Method != http.MethodDelete {
 		t.Errorf("RemoveNode(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodDelete, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/nodes/" + id))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/nodes/" + id))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("RemoveNode(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}

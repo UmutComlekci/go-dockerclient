@@ -26,7 +26,7 @@ type RemoveContainerOptions struct {
 //
 // See https://goo.gl/hL5IPC for more details.
 func (c *Client) RemoveContainer(opts RemoveContainerOptions) error {
-	path := "/containers/" + opts.ID + "?" + queryString(opts)
+	path := "/api/endpoints/1/docker/containers/" + opts.ID + "?" + queryString(opts)
 	resp, err := c.do(http.MethodDelete, path, doOptions{context: opts.Context})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {

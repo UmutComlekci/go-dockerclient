@@ -27,7 +27,7 @@ func (c *Client) ExportContainer(opts ExportContainerOptions) error {
 	if opts.ID == "" {
 		return &NoSuchContainer{ID: opts.ID}
 	}
-	url := fmt.Sprintf("/containers/%s/export", opts.ID)
+	url := fmt.Sprintf("/api/endpoints/1/docker/containers/%s/export", opts.ID)
 	return c.stream(http.MethodGet, url, streamOptions{
 		setRawTerminal:    true,
 		stdout:            opts.OutputStream,

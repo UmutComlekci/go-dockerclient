@@ -24,7 +24,7 @@ type CommitContainerOptions struct {
 //
 // See https://goo.gl/CzIguf for more details.
 func (c *Client) CommitContainer(opts CommitContainerOptions) (*Image, error) {
-	path := "/commit?" + queryString(opts)
+	path := "/api/endpoints/1/docker/commit?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		data:    opts.Run,
 		context: opts.Context,

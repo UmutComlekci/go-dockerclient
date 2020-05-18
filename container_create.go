@@ -31,7 +31,7 @@ type CreateContainerOptions struct {
 //
 // See https://goo.gl/tyzwVM for more details.
 func (c *Client) CreateContainer(opts CreateContainerOptions) (*Container, error) {
-	path := "/containers/create?" + queryString(opts)
+	path := "/api/endpoints/1/docker/containers/create?" + queryString(opts)
 	resp, err := c.do(
 		http.MethodPost,
 		path,

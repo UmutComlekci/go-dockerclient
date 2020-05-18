@@ -25,7 +25,7 @@ func (c *Client) StopContainerWithContext(id string, timeout uint, ctx context.C
 }
 
 func (c *Client) stopContainer(id string, timeout uint, opts doOptions) error {
-	path := fmt.Sprintf("/containers/%s/stop?t=%d", id, timeout)
+	path := fmt.Sprintf("/api/endpoints/1/docker/containers/%s/stop?t=%d", id, timeout)
 	resp, err := c.do(http.MethodPost, path, opts)
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {

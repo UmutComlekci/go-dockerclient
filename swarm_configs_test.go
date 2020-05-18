@@ -40,7 +40,7 @@ func TestCreateConfig(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("CreateConfig: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/configs/create"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/configs/create"))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("CreateConfig: Wrong path in request. Want %q. Got %q.", expectedURL.Path, gotPath)
 	}
@@ -65,7 +65,7 @@ func TestRemoveConfig(t *testing.T) {
 	if req.Method != http.MethodDelete {
 		t.Errorf("RemoveConfig(%q): wrong HTTP method. Want %q. Got %q.", id, http.MethodDelete, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/configs/" + id))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/configs/" + id))
 	if gotPath := req.URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("RemoveConfig(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}
@@ -92,7 +92,7 @@ func TestUpdateConfig(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateConfig: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/configs/" + id + "/update?version=23"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/configs/" + id + "/update?version=23"))
 	if gotURI := req.URL.RequestURI(); gotURI != expectedURL.RequestURI() {
 		t.Errorf("UpdateConfig: Wrong path in request. Want %q. Got %q.", expectedURL.RequestURI(), gotURI)
 	}
@@ -130,7 +130,7 @@ func TestUpdateConfigWithAuthentication(t *testing.T) {
 	if req.Method != http.MethodPost {
 		t.Errorf("UpdateConfig: wrong HTTP method. Want %q. Got %q.", http.MethodPost, req.Method)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/configs/" + id + "/update?version=23"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/configs/" + id + "/update?version=23"))
 	if gotURI := req.URL.RequestURI(); gotURI != expectedURL.RequestURI() {
 		t.Errorf("UpdateConfig: Wrong path in request. Want %q. Got %q.", expectedURL.RequestURI(), gotURI)
 	}
@@ -205,7 +205,7 @@ func TestInspectConfig(t *testing.T) {
 	if !reflect.DeepEqual(*config, expected) {
 		t.Errorf("InspectConfig(%q): Expected %#v. Got %#v.", id, expected, config)
 	}
-	expectedURL, _ := url.Parse(client.getURL("/configs/ktnbjxoalbkvbvedmg1urrz8h"))
+	expectedURL, _ := url.Parse(client.getURL("/api/endpoints/1/docker/configs/ktnbjxoalbkvbvedmg1urrz8h"))
 	if gotPath := fakeRT.requests[0].URL.Path; gotPath != expectedURL.Path {
 		t.Errorf("InspectConfig(%q): Wrong path in request. Want %q. Got %q.", id, expectedURL.Path, gotPath)
 	}

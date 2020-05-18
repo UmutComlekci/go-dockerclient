@@ -48,7 +48,7 @@ type Endpoint struct {
 //
 // See https://goo.gl/6GugX3 for more details.
 func (c *Client) ListNetworks() ([]Network, error) {
-	resp, err := c.do(http.MethodGet, "/networks", doOptions{})
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/networks", doOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (c *Client) FilteredListNetworks(opts NetworkFilterOpts) ([]Network, error)
 	}
 	qs := make(url.Values)
 	qs.Add("filters", string(params))
-	path := "/networks?" + qs.Encode()
+	path := "/api/endpoints/1/docker/networks?" + qs.Encode()
 	resp, err := c.do(http.MethodGet, path, doOptions{})
 	if err != nil {
 		return nil, err
@@ -91,7 +91,7 @@ func (c *Client) FilteredListNetworks(opts NetworkFilterOpts) ([]Network, error)
 //
 // See https://goo.gl/6GugX3 for more details.
 func (c *Client) NetworkInfo(id string) (*Network, error) {
-	path := "/networks/" + id
+	path := "/api/endpoints/1/docker/networks/" + id
 	resp, err := c.do(http.MethodGet, path, doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
@@ -160,7 +160,7 @@ type IPAMConfig struct {
 func (c *Client) CreateNetwork(opts CreateNetworkOptions) (*Network, error) {
 	resp, err := c.do(
 		http.MethodPost,
-		"/networks/create",
+		"/api/endpoints/1/docker/networks/create",
 		doOptions{
 			data:    opts,
 			context: opts.Context,
@@ -193,7 +193,7 @@ func (c *Client) CreateNetwork(opts CreateNetworkOptions) (*Network, error) {
 //
 // See https://goo.gl/6GugX3 for more details.
 func (c *Client) RemoveNetwork(id string) error {
-	resp, err := c.do(http.MethodDelete, "/networks/"+id, doOptions{})
+	resp, err := c.do(http.MethodDelete, "/api/endpoints/1/docker/networks/"+id, doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
 			return &NoSuchNetwork{ID: id}
@@ -253,7 +253,7 @@ type EndpointIPAMConfig struct {
 //
 // See https://goo.gl/6GugX3 for more details.
 func (c *Client) ConnectNetwork(id string, opts NetworkConnectionOptions) error {
-	resp, err := c.do(http.MethodPost, "/networks/"+id+"/connect", doOptions{
+	resp, err := c.do(http.MethodPost, "/api/endpoints/1/docker/networks/"+id+"/connect", doOptions{
 		data:    opts,
 		context: opts.Context,
 	})
@@ -272,7 +272,7 @@ func (c *Client) ConnectNetwork(id string, opts NetworkConnectionOptions) error 
 //
 // See https://goo.gl/6GugX3 for more details.
 func (c *Client) DisconnectNetwork(id string, opts NetworkConnectionOptions) error {
-	resp, err := c.do(http.MethodPost, "/networks/"+id+"/disconnect", doOptions{data: opts})
+	resp, err := c.do(http.MethodPost, "/api/endpoints/1/docker/networks/"+id+"/disconnect", doOptions{data: opts})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
 			return &NoSuchNetworkOrContainer{NetworkID: id, ContainerID: opts.Container}
@@ -302,7 +302,7 @@ type PruneNetworksResults struct {
 //
 // See https://goo.gl/kX0S9h for more details.
 func (c *Client) PruneNetworks(opts PruneNetworksOptions) (*PruneNetworksResults, error) {
-	path := "/networks/prune?" + queryString(opts)
+	path := "/api/endpoints/1/docker/networks/prune?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{context: opts.Context})
 	if err != nil {
 		return nil, err

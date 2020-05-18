@@ -59,7 +59,7 @@ type DiskUsageOptions struct {
 //
 // More Info Here https://dockr.ly/2PNzQyO
 func (c *Client) DiskUsage(opts DiskUsageOptions) (*DiskUsage, error) {
-	path := "/system/df"
+	path := "/api/endpoints/1/docker/system/df"
 	resp, err := c.do(http.MethodGet, path, doOptions{context: opts.Context})
 	if err != nil {
 		return nil, err

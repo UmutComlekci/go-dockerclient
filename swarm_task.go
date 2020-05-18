@@ -37,7 +37,7 @@ type ListTasksOptions struct {
 //
 // See http://goo.gl/rByLzw for more details.
 func (c *Client) ListTasks(opts ListTasksOptions) ([]swarm.Task, error) {
-	path := "/tasks?" + queryString(opts)
+	path := "/api/endpoints/1/docker/tasks?" + queryString(opts)
 	resp, err := c.do(http.MethodGet, path, doOptions{context: opts.Context})
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (c *Client) ListTasks(opts ListTasksOptions) ([]swarm.Task, error) {
 //
 // See http://goo.gl/kyziuq for more details.
 func (c *Client) InspectTask(id string) (*swarm.Task, error) {
-	resp, err := c.do(http.MethodGet, "/tasks/"+id, doOptions{})
+	resp, err := c.do(http.MethodGet, "/api/endpoints/1/docker/tasks/"+id, doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
 			return nil, &NoSuchTask{ID: id}

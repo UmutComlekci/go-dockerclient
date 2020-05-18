@@ -23,7 +23,7 @@ type ListContainersOptions struct {
 //
 // See https://goo.gl/kaOHGw for more details.
 func (c *Client) ListContainers(opts ListContainersOptions) ([]APIContainers, error) {
-	path := "/containers/json?" + queryString(opts)
+	path := "/api/endpoints/1/docker/containers/json?" + queryString(opts)
 	resp, err := c.do(http.MethodGet, path, doOptions{context: opts.Context})
 	if err != nil {
 		return nil, err

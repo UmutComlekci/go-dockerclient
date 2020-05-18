@@ -45,7 +45,7 @@ func (c *Client) CreateService(opts CreateServiceOptions) (*swarm.Service, error
 	if err != nil {
 		return nil, err
 	}
-	path := "/services/create?" + queryString(opts)
+	path := "/api/endpoints/1/docker/services/create?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{
 		headers:   headers,
 		data:      opts.ServiceSpec,
@@ -75,7 +75,7 @@ type RemoveServiceOptions struct {
 //
 // See https://goo.gl/Tqrtya for more details.
 func (c *Client) RemoveService(opts RemoveServiceOptions) error {
-	path := "/services/" + opts.ID
+	path := "/api/endpoints/1/docker/services/" + opts.ID
 	resp, err := c.do(http.MethodDelete, path, doOptions{context: opts.Context})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
@@ -106,7 +106,7 @@ func (c *Client) UpdateService(id string, opts UpdateServiceOptions) error {
 	if err != nil {
 		return err
 	}
-	resp, err := c.do(http.MethodPost, "/services/"+id+"/update?"+queryString(opts), doOptions{
+	resp, err := c.do(http.MethodPost, "/api/endpoints/1/docker/services/"+id+"/update?"+queryString(opts), doOptions{
 		headers:   headers,
 		data:      opts.ServiceSpec,
 		forceJSON: true,
@@ -126,7 +126,7 @@ func (c *Client) UpdateService(id string, opts UpdateServiceOptions) error {
 //
 // See https://goo.gl/dHmr75 for more details.
 func (c *Client) InspectService(id string) (*swarm.Service, error) {
-	path := "/services/" + id
+	path := "/api/endpoints/1/docker/services/" + id
 	resp, err := c.do(http.MethodGet, path, doOptions{})
 	if err != nil {
 		if e, ok := err.(*Error); ok && e.Status == http.StatusNotFound {
@@ -155,7 +155,7 @@ type ListServicesOptions struct {
 //
 // See https://goo.gl/DwvNMd for more details.
 func (c *Client) ListServices(opts ListServicesOptions) ([]swarm.Service, error) {
-	path := "/services?" + queryString(opts)
+	path := "/api/endpoints/1/docker/services?" + queryString(opts)
 	resp, err := c.do(http.MethodGet, path, doOptions{context: opts.Context})
 	if err != nil {
 		return nil, err
@@ -203,7 +203,7 @@ func (c *Client) GetServiceLogs(opts LogsServiceOptions) error {
 	if opts.Tail == "" {
 		opts.Tail = "all"
 	}
-	path := "/services/" + opts.Service + "/logs?" + queryString(opts)
+	path := "/api/endpoints/1/docker/services/" + opts.Service + "/logs?" + queryString(opts)
 	return c.stream(http.MethodGet, path, streamOptions{
 		setRawTerminal:    opts.RawTerminal,
 		stdout:            opts.OutputStream,

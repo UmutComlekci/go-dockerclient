@@ -24,7 +24,7 @@ type KillContainerOptions struct {
 //
 // See https://goo.gl/JnTxXZ for more details.
 func (c *Client) KillContainer(opts KillContainerOptions) error {
-	path := "/containers/" + opts.ID + "/kill" + "?" + queryString(opts)
+	path := "/api/endpoints/1/docker/containers/" + opts.ID + "/kill" + "?" + queryString(opts)
 	resp, err := c.do(http.MethodPost, path, doOptions{context: opts.Context})
 	if err != nil {
 		e, ok := err.(*Error)

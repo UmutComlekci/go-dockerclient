@@ -47,7 +47,7 @@ func (c *Client) Logs(opts LogsOptions) error {
 	if opts.Tail == "" {
 		opts.Tail = "all"
 	}
-	path := "/containers/" + opts.Container + "/logs?" + queryString(opts)
+	path := "/api/endpoints/1/docker/containers/" + opts.Container + "/logs?" + queryString(opts)
 	return c.stream(http.MethodGet, path, streamOptions{
 		setRawTerminal:    opts.RawTerminal,
 		stdout:            opts.OutputStream,

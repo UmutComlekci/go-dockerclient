@@ -24,7 +24,7 @@ type UploadToContainerOptions struct {
 //
 // See https://goo.gl/g25o7u for more details.
 func (c *Client) UploadToContainer(id string, opts UploadToContainerOptions) error {
-	url := fmt.Sprintf("/containers/%s/archive?", id) + queryString(opts)
+	url := fmt.Sprintf("/api/endpoints/1/docker/containers/%s/archive?", id) + queryString(opts)
 
 	return c.stream(http.MethodPut, url, streamOptions{
 		in:      opts.InputStream,
@@ -47,7 +47,7 @@ type DownloadFromContainerOptions struct {
 //
 // See https://goo.gl/W49jxK for more details.
 func (c *Client) DownloadFromContainer(id string, opts DownloadFromContainerOptions) error {
-	url := fmt.Sprintf("/containers/%s/archive?", id) + queryString(opts)
+	url := fmt.Sprintf("/api/endpoints/1/docker/containers/%s/archive?", id) + queryString(opts)
 
 	return c.stream(http.MethodGet, url, streamOptions{
 		setRawTerminal:    true,
