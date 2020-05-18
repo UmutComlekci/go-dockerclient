@@ -9,7 +9,7 @@ require (
 	github.com/containerd/continuity v0.0.0-20200413184840-d3ef23f19fbb // indirect
 	github.com/docker/docker v17.12.0-ce-rc1.0.20200505174321-1655290016ac+incompatible
 	github.com/docker/go-units v0.4.0
-	github.com/fsouza/go-dockerclient v1.6.5 // indirect
+	github.com/UmutComlekci/go-dockerclient v1.6.5 // indirect
 	github.com/google/go-cmp v0.4.1
 	github.com/gorilla/mux v1.7.4
 	github.com/moby/sys/mount v0.1.0 // indirect
