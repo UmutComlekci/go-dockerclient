@@ -17,8 +17,8 @@ import (
 	"strings"
 	"time"
 
+	docker "github.com/UmutComlekci/go-dockerclient"
 	"github.com/docker/docker/api/types/swarm"
-	docker "github.com/fsouza/go-dockerclient"
 	"github.com/gorilla/mux"
 )
 
