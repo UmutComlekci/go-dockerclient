@@ -149,6 +149,9 @@ type Client struct {
 	requestedAPIVersion APIVersion
 	serverAPIVersion    APIVersion
 	expectedAPIVersion  APIVersion
+
+	// custom http headers configured by users.
+	customHTTPHeaders map[string]string
 }
 
 // Dialer is an interface that allows network connections to be dialed
@@ -167,6 +170,19 @@ func NewClient(endpoint string) (*Client, error) {
 		return nil, err
 	}
 	client.SkipServerVersionCheck = true
+	return client, nil
+}
+
+// NewClientWithHttpHeaders returns a Client instance ready for communication with the given
+// server endpoint. It will use the latest remote API version available in the
+// server.
+func NewClientWithHttpHeaders(endpoint string, headers map[string]string) (*Client, error) {
+	client, err := NewVersionedClient(endpoint, "")
+	if err != nil {
+		return nil, err
+	}
+	client.SkipServerVersionCheck = true
+	client.customHTTPHeaders = headers
 	return client, nil
 }
 
@@ -471,6 +487,12 @@ func (c *Client) do(method, path string, doOptions doOptions) (*http.Response, e
 
 	for k, v := range doOptions.headers {
 		req.Header.Set(k, v)
+	}
+
+	if c.customHTTPHeaders != nil {
+		for k, v := range c.customHTTPHeaders {
+			req.Header.Set(k, v)
+		}
 	}
 
 	ctx := doOptions.context
